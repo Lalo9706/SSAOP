@@ -64,3 +64,13 @@ Este proyecto es un sistema web diseñado para el Departamento de Obras Pública
 
 4. Ejecuta las migraciones:
    php artisan migrate:fresh --seed
+
+## Estándar de Codificación
+Este proyecto sigue los estándares de codificación PSR-1 y PSR-2 para mantener un código limpio, consistente y fácil de mantener.
+- [PSR-1: Basic Coding Standard](https://bootcamp.laravel.com).
+- [PSR-2: Coding Style Guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+Se recomienda que todos los colaboradores sigan estos estándares para garantizar la coherencia del código.
+
+## Licencia
+Este proyecto es un software desarrollado bajo la [Licencia MIT](https://opensource.org/licenses/MIT).
+
