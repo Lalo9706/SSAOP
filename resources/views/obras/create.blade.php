@@ -7,80 +7,8 @@
     <!-- Estilo del Formulario -->
     <div class="flex items-center justify-center bg-gray-100 dark:bg-gray-900">
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            <!-- Scripts -->
-            <script>
-                /* Script para mostrar un cuadro de dialogo al recargar la página sin haber guardado los datos del formulario */
-                let isFormDirty = false; //Variable para detectar si el formulario ha sido modificado
-
-                // Función listener que detecta cambios en los campos del formulario y modifica la variable isFormDirty
-                document.addEventListener('input', () => {
-                    isFormDirty = true;
-                });
-
-                // Función windows que muestra la alerta cuando se intenta salir o actualizar del formulario con datos
-                window.addEventListener('beforeunload', (event) => {
-                    if (isFormDirty) {
-                        event.preventDefault();
-                        event.returnValue = ''; // Necesario para que el navegador muestre la alerta
-                    }
-                });
-
-                // Reinicia el estado de la variable cuando se envía el formulario
-                document.querySelector('form').addEventListener('submit', () => {
-                    isFormDirty = false;
-                });
-                /* Fin - Script para mostrar un cuadro de dialogo al recargar la página sin haber guardado los datos del formulario */
-
-                //Script para filtrar Programas, Subprogramas y Tipologías
-                function localidades() {
-                    return {
-                        pgis: @json($pgis),
-                        municipios: [],
-                        localidades: [],
-                        pgiSeleccionado: '',
-                        municipioSeleccionado: '',
-
-                        // Filtra los municipios y localidades al seleccionar un pgi
-                        filtrarMunicipiosYLocalidades() {
-                            // Filtra el municipio relacionado con el pgi seleccionado (uno solo)
-                            const pgi = this.pgis.find(p => p.id == this.pgiSeleccionado);
-                            if (pgi) {
-                                this.municipios = [pgi.municipio]; // Asignamos solo un municipio (relación 1 a 1)
-                                this.municipioSeleccionado = pgi.municipio.id; // Asignamos el municipio automáticamente
-                                this.localidades = pgi.municipio.localidades || []; // Filtramos las localidades asociadas al municipio
-                            } else {
-                                this.municipios = [];
-                                this.municipioSeleccionado = '';
-                                this.localidades = [];
-                            }
-                        }
-                    }
-                }
-                
-                // Script para filtrar las Localidades asociadas al Municipio del PGI
-                function programas() {
-                    return {
-                        programas: @json($programas),
-                        subprogramas: [],
-                        tipologias: [],
-                        programaSeleccionado: '',
-                        subprogramaSeleccionado: '',
-            
-                        filtrarSubprogramas() {
-                            this.subprogramas = this.programas.find(p => p.id == this.programaSeleccionado)?.subprogramas || [];
-                            this.subprogramaSeleccionado = '';
-                            this.tipologias = [];
-                        },
-            
-                        filtrarTipologias() {
-                            this.tipologias = this.subprogramas.find(s => s.id == this.subprogramaSeleccionado)?.tipologias || [];
-                        }
-                    }
-                }
-            </script>
-
             <!--Formulario-->
-            <form method="POST" action="/obras" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('obras.store') }}" enctype="multipart/form-data">
                 @csrf <!-- Token de seguridad -->
 
                 <div x-data="{ activeTab: 'tab1' }">
@@ -116,17 +44,19 @@
                             Metas
                         </button>
                     </div>
+                    <!-- Fin navegación de Pestañas -->
 
                     <!-- CAMPOS DE DATOS BÁSICOS -->
                     <h3 class="font-semibold text-lg text-center text-gray-800 dark:text-gray-200 leading-tight py-3" x-show="activeTab === 'tab1'">
                         {{ __('Datos Básicos') }}
                     </h3>
                     <!--Conjunto de combo-boxes para la selección del PGI y la Localidad-->
-                    <div x-data="localidades()" x-show="activeTab === 'tab1'">
+                    <div x-data="localidades" x-show="activeTab === 'tab1'">
                         <!-- Combo-box para seleccionar PGI -->
                         <div class="py-2">
-                            <x-input-label for="pgi" :value="__('Programa General de Inversión')" />
-                            <select x-model="pgiSeleccionado" @change="filtrarMunicipiosYLocalidades()"
+                            <x-input-label for="pgi_id" :value="__('Programa General de Inversión')" />
+                            <select name="pgi_id" id="pgi_id"
+                            x-model="pgiSeleccionado" @change="filtrarMunicipiosYLocalidades()"
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600">
                                 <option value="">Selecciona el PGI</option>
@@ -140,8 +70,9 @@
                         ** Este combo box no es necesario ya que solo hay un municipio asociado a cada PGI, 
                         ** por lo que el script lo seleccionará automaticamente.
                         <div class="py-2">
-                            <x-input-label for="municipio" :value="__('Municipio')" />
-                            <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            <x-input-label for="municipio_id" :value="__('Municipio')" />
+                            <select name="municipio_id" id="municipio_id"
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
                             x-model="municipioSeleccionado" x-bind:disabled="municipios.length === 0">
                                 <option value="">Selecciona el Municipio</option>
@@ -154,10 +85,10 @@
 
                         <!-- Combo-box para seleccionar Localidad -->
                         <div class="py-2">
-                            <x-input-label for="localidad" :value="__('Localidad')" />
-                            <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
-                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                            name="localidad_id" :disabled="!localidades.length">
+                            <x-input-label for="localidad_id" :value="__('Localidad')" />
+                            <select name="localidad_id" id="localidad_id"
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" :disabled="!localidades.length">
                                 <option value="">Selecciona la Localidad</option>
                                 <template x-for="localidad in localidades" :key="localidad.id">
                                     <option :value="localidad.id" x-text="localidad.nombre_localidad"></option>
@@ -168,13 +99,14 @@
                     <!--Fin - Conjunto de combo-boxes para la selección del PGI y la Localidad-->
 
                     <!--Conjunto de combo-boxes para la selección de Programas, Subprogramas y Tipologías-->
-                    <div x-data="programas()" x-show="activeTab === 'tab1'">
+                    <div x-data="programas" x-show="activeTab === 'tab1'">
                         <!-- Combo-box de Programas -->
                         <div class="py-2">
-                            <x-input-label for="programa" :value="__('Programa')" />
-                            <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            <x-input-label for="programa_id" :value="__('Programa')" />
+                            <select name="programa_id" id="programa_id"
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" 
-                            x-model="programaSeleccionado" @change="filtrarSubprogramas()" name="programa_id">
+                            x-model="programaSeleccionado" @change="filtrarSubprogramas()">
                                 <option value="">Selecciona el Programa</option>
                                 @foreach ($programas as $programa)
                                     <option value="{{ $programa->id }}">{{ $programa->clave_programa }} - {{ $programa->nombre_programa }}</option>
@@ -184,10 +116,11 @@
                     
                         <!-- Combo-box de Subprogramas -->
                         <div class="py-2">
-                            <x-input-label for="subprograma" :value="__('Subprograma')" />
-                            <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            <x-input-label for="subprograma_id" :value="__('Subprograma')" />
+                            <select name="subprograma_id" id="subprograma_id"
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                            x-model="subprogramaSeleccionado" @change="filtrarTipologias()" name="subprograma_id" :disabled="!subprogramas.length">
+                            x-model="subprogramaSeleccionado" @change="filtrarTipologias()" :disabled="!subprogramas.length">
                                 <option value="">Selecciona el Subprograma</option>
                                 <template x-for="subprograma in subprogramas" :key="subprograma.id">
                                     <option :value="subprograma.id" x-text="subprograma.clave_subprograma + ' - ' + subprograma.nombre_subprograma"></option>
@@ -197,10 +130,10 @@
                     
                         <!-- Combo-box de Tipologías -->
                         <div class="py-2">
-                            <x-input-label for="tipologia" :value="__('Tipología')" />
-                            <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
-                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                            name="tipologia_id" :disabled="!tipologias.length">
+                            <x-input-label for="tipologia_id" :value="__('Tipología')" />
+                            <select name="tipologia_id" id="tipologia_id" 
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" :disabled="!tipologias.length">
                                 <option value="">Selecciona la Tipología</option>
                                 <template x-for="tipologia in tipologias" :key="tipologia.id">
                                     <option :value="tipologia.id" x-text="tipologia.clave_tipologia + ' - ' + tipologia.nombre_tipologia"></option>
@@ -213,9 +146,9 @@
                     <!--Combo-box Tipo de Obra-->
                     <div class="py-2" x-show="activeTab === 'tab1'">
                         <x-input-label for="tipo_obra" :value="__('Tipo de Obra')" />
-                        <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
-                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                        name="tipo_obra" id="tipo_obra">
+                        <select name="tipo_obra"
+                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" id="tipo_obra">
                             <option value="">Selecciona el Tipo</option>
                             <option value="Obra">Obra</option>
                             <option value="Accion">Acción</option>
@@ -311,6 +244,21 @@
                             <option value="Invitación a cuando menos tres personas">Invitación a cuando menos tres personas</option>
                         </select>
                     </div>
+
+                    <!--Botón para seleccionar el archivo de la solicitud de obra-->
+                    <div class="py-2" x-show="activeTab === 'tab1'">
+                        <x-input-label for="solicitud_obra" :value="__('Solicitud de la Obra')" />
+                        <input
+                            type="file"
+                            class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
+                            bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                            name="solicitud_obra" id="solicitud_obra"
+                        />
+                        @error('solicitud_obra')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+            
+                    </div>
                     <!-- FIN DE CAMPOS DE DATOS BÁSICOS -->
                     
                     <!-- CAMPOS DE DATOS DE ESTRUCTURA FINANCIERA -->
@@ -352,7 +300,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="aportacion_municipal" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="aportacion_municipal" :value="old('aportacion_municipal')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="aportacion_municipal" :value="old('aportacion_municipal')" step="0.01" min="0" placeholder="0.00"
                             />
                         </div>
                     </div>
@@ -365,7 +313,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="aportacion_beneficiarios" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="aportacion_beneficiarios" :value="old('aportacion_beneficiarios')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="aportacion_beneficiarios" :value="old('aportacion_beneficiarios')" step="0.01" min="0" placeholder="0.00"
                             />
                         </div>
                     </div>
@@ -378,7 +326,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otras_fuentes_federales" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otras_fuentes_federales" :value="old('otras_fuentes_federales')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otras_fuentes_federales" :value="old('otras_fuentes_federales')" step="0.01" min="0" placeholder="0.00"
                             />
                         </div>
                     </div>
@@ -391,7 +339,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otras_fuentes_estatales" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otras_fuentes_estatales" :value="old('otras_fuentes_estatales')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otras_fuentes_estatales" :value="old('otras_fuentes_estatales')" step="0.01" min="0" placeholder="0.00"
                             />
                         </div>
                     </div>
@@ -404,7 +352,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otros" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otros" :value="old('otros')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otros" :value="old('otros')" step="0.01" min="0" placeholder="0.00"
                             />
                         </div>
                     </div>
@@ -419,7 +367,7 @@
                         <h3 class="font-semibold text-md text-gray-800 dark:text-gray-200 leading-tight py-0">
                             {{ __('Del proyecto: ') }}
                         </h3>
-                        <div class="grid grid-cols-2 md:grid-cols-2 gap-4">  
+                        <div class="grid grid-cols-2 md:grid-cols-2 gap-4">  <!--GRID de 2 x 22-->
                             <!--Campo de Texto - Unidad de Medida - Proyecto -->
                             <div class="py-2">
                                 <x-input-label for="unidad_medida_proyecto" :value="__('Unidad de Medida')" />
@@ -461,14 +409,85 @@
                     <!-- FIN DE CAMPOS DE DATOS DE METAS -->
                 </div>
 
-                 <!-- Botón de Registro -->
-                 <div class="flex items-center justify-end mt-4">
+                <!-- Botón de Registro-->
+                <div class="flex items-center justify-end mt-4">
                     <x-primary-button class="ms-4">
                         {{ __('Registrar Obra') }}
                     </x-primary-button>
                 </div>
-
             </form>
+
+            <!-- Scripts --------------------------------------------------------------------------------------------------------->
+            <script>
+                /* Script para mostrar un cuadro de dialogo al recargar la página sin haber guardado los datos del formulario */
+                let isFormDirty = false; //Variable para detectar si el formulario ha sido modificado
+
+                // Función listener que detecta cambios en los campos del formulario y modifica la variable isFormDirty
+                document.addEventListener('input', () => {
+                    isFormDirty = true;
+                });
+
+                // Reinicia el estado de la variable cuando se envía el formulario
+                document.querySelector('form').addEventListener('submit', () => {
+                    isFormDirty = false;
+                });
+
+                window.addEventListener('beforeunload', function(event) {
+                    if (isFormDirty) {
+                        event.preventDefault(); // Esta línea es importante para mostrar la alerta
+                        event.returnValue = '';  // Necesario para que se muestre la alerta
+                    }
+                });
+
+                /* Fin - Script para mostrar un cuadro de dialogo al recargar la página sin haber guardado los datos del formulario */
+
+                //Script para filtrar Programas, Subprogramas y Tipologías
+                function localidades() {
+                    return {
+                        pgis: @json($pgis),
+                        municipios: [],
+                        localidades: [],
+                        pgiSeleccionado: '',
+                        municipioSeleccionado: '',
+
+                        // Filtra los municipios y localidades al seleccionar un pgi
+                        filtrarMunicipiosYLocalidades() {
+                            // Filtra el municipio relacionado con el pgi seleccionado (uno solo)
+                            const pgi = this.pgis.find(p => p.id == this.pgiSeleccionado);
+                            if (pgi) {
+                                this.municipios = [pgi.municipio]; // Asignamos solo un municipio (relación 1 a 1)
+                                this.municipioSeleccionado = pgi.municipio.id; // Asignamos el municipio automáticamente
+                                this.localidades = pgi.municipio.localidades || []; // Filtramos las localidades asociadas al municipio
+                            } else {
+                                this.municipios = [];
+                                this.municipioSeleccionado = '';
+                                this.localidades = [];
+                            }
+                        }
+                    }
+                }
+                
+                // Script para filtrar las Localidades asociadas al Municipio del PGI
+                function programas() {
+                    return {
+                        programas: @json($programas),
+                        subprogramas: [],
+                        tipologias: [],
+                        programaSeleccionado: '',
+                        subprogramaSeleccionado: '',
+            
+                        filtrarSubprogramas() {
+                            this.subprogramas = this.programas.find(p => p.id == this.programaSeleccionado)?.subprogramas || [];
+                            this.subprogramaSeleccionado = '';
+                            this.tipologias = [];
+                        },
+            
+                        filtrarTipologias() {
+                            this.tipologias = this.subprogramas.find(s => s.id == this.subprogramaSeleccionado)?.tipologias || [];
+                        }
+                    }
+                }
+            </script>
         </div>
     </div> 
 </x-app-layout>

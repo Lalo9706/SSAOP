@@ -28,6 +28,11 @@ class ObrasSeeder extends Seeder
             'nombre_fondo' => 'Fondo de Aportaciones para la Infraestructura Social Municipal y de las Demarcaciones Territoriales del Distrito Federal'
         ]);
 
+        FuenteFinanciamiento::create([
+            'clave_fondo' => 'FORTAMUNDF',
+            'nombre_fondo' => 'Fondo de Aportaciones para el Fortalecimiento de los Municipios y de las Demarcaciones Territoriale del Distrito Federal'
+        ]);
+
         $pgi_1 = PGI::create([
             'fuente_financiamiento_id' => $fuente_financiamiento_1->id,
             'municipio_id' => '1',
@@ -54,7 +59,7 @@ class ObrasSeeder extends Seeder
             'situacion_fisica' => null,
             'modalidad_ejecucion' => 'Contrato',
             'tipo_licitacion' => 'Invitación a cuando menos tres personas',
-            'ruta_archivo_solicitud_obra' => null,
+            'solicitud_obra' => null,
             'estado' => true
         ]);
 
@@ -76,7 +81,7 @@ class ObrasSeeder extends Seeder
             'situacion_fisica' => null,
             'modalidad_ejecucion' => 'Contrato',
             'tipo_licitacion' => 'Invitación a cuando menos tres personas',
-            'ruta_archivo_solicitud_obra' => null,
+            'solicitud_obra' => null,
             'estado' => true
         ]);
 

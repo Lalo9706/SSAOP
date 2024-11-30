@@ -12,6 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        <script src="//unpkg.com/alpinejs" defer></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.4/dist/cdn.min.js"></script>
     </head>
@@ -35,9 +36,10 @@
             
             <footer class="bg-white dark:bg-gray-800 shadow mt-4">
                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-gray-500 dark:text-gray-400">
-                    © {{ date('Y') }} {{ config('app.name', 'SSAOP') }} {{ __('Todos los derechos reservados.') }}
+                    &copy {{ date('Y') }} {{ config('app.name', 'SSAOP') }} {{ __('Todos los derechos reservados.') }}
                 </div>
-            </footer> 
-        </div>        
+            </footer>
+            <x-flash-message /> <!--Componente de mensajes invocado desde el layout-->
+        </div>
     </body>
 </html>

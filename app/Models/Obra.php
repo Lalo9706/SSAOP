@@ -27,7 +27,7 @@ class Obra extends Model
         'situacion_fisica',
         'modalidad_ejecucion',
         'tipo_licitacion',
-        'ruta_archivo_solicitud_obra',
+        'solicitud_obra', //Ruta del archivo de la solicitud
         'estado'
     ];
 

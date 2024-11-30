@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PGIController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ObraController::class, 'index']);
 
@@ -26,8 +27,17 @@ Route::middleware('auth')->group(function () {
     //Eliminar el Perfil del Usuario de la base de datos
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //Mostrar el formulario para el registro de un PGI
+    Route::get('/pgis', [PGIController::class, 'create'])->name('pgis.create');
+
+    //Registrar un PGI
+    Route::post('/pgis',[PGIController::class, 'store'])->name('pgis.store'); //POST
+
     //Mostrar el formulario para el registro de una obra
     Route::get('/obras', [ObraController::class, 'create'])->name('obras.create');
+
+    //Registrar una Obra
+    Route::post('/obras',[ObraController::class, 'store'])->name('obras.store'); //POST
 });
 
 

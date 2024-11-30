@@ -11,7 +11,7 @@ class Meta extends Model
     protected $fillable = 
     [
         'obra_id',
-        'tipo_meta',
+        'tipo_meta', //Proyecto | Beneficiario
         'unidad_medida',
         'cantidad_aprobada',
         'cantidad_alcanzada'

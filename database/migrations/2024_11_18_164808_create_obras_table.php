@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('situacion_fisica')->nullable()->default('N/A');
             $table->string('modalidad_ejecucion');
             $table->string('tipo_licitacion');
-            $table->string('ruta_archivo_solicitud_obra')->nullable();
+            $table->string('solicitud_obra')->nullable(); //Ruta del archivo de la solicitud de la Obra
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });
