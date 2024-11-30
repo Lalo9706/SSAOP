@@ -55,7 +55,7 @@
                         <!-- Combo-box para seleccionar PGI -->
                         <div class="py-2">
                             <x-input-label for="pgi_id" :value="__('Programa General de Inversión')" />
-                            <select name="pgi_id" id="pgi_id"
+                            <select name="pgi_id" id="pgi_id" required
                             x-model="pgiSeleccionado" @change="filtrarMunicipiosYLocalidades()"
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600">
@@ -71,7 +71,7 @@
                         ** por lo que el script lo seleccionará automaticamente.
                         <div class="py-2">
                             <x-input-label for="municipio_id" :value="__('Municipio')" />
-                            <select name="municipio_id" id="municipio_id"
+                            <select name="municipio_id" id="municipio_id" required
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
                             x-model="municipioSeleccionado" x-bind:disabled="municipios.length === 0">
@@ -86,7 +86,7 @@
                         <!-- Combo-box para seleccionar Localidad -->
                         <div class="py-2">
                             <x-input-label for="localidad_id" :value="__('Localidad')" />
-                            <select name="localidad_id" id="localidad_id"
+                            <select name="localidad_id" id="localidad_id" required
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" :disabled="!localidades.length">
                                 <option value="">Selecciona la Localidad</option>
@@ -103,7 +103,7 @@
                         <!-- Combo-box de Programas -->
                         <div class="py-2">
                             <x-input-label for="programa_id" :value="__('Programa')" />
-                            <select name="programa_id" id="programa_id"
+                            <select name="programa_id" id="programa_id" required
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" 
                             x-model="programaSeleccionado" @change="filtrarSubprogramas()">
@@ -117,7 +117,7 @@
                         <!-- Combo-box de Subprogramas -->
                         <div class="py-2">
                             <x-input-label for="subprograma_id" :value="__('Subprograma')" />
-                            <select name="subprograma_id" id="subprograma_id"
+                            <select name="subprograma_id" id="subprograma_id" required
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
                             x-model="subprogramaSeleccionado" @change="filtrarTipologias()" :disabled="!subprogramas.length">
@@ -131,7 +131,7 @@
                         <!-- Combo-box de Tipologías -->
                         <div class="py-2">
                             <x-input-label for="tipologia_id" :value="__('Tipología')" />
-                            <select name="tipologia_id" id="tipologia_id" 
+                            <select name="tipologia_id" id="tipologia_id" required
                             class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" :disabled="!tipologias.length">
                                 <option value="">Selecciona la Tipología</option>
@@ -146,7 +146,7 @@
                     <!--Combo-box Tipo de Obra-->
                     <div class="py-2" x-show="activeTab === 'tab1'">
                         <x-input-label for="tipo_obra" :value="__('Tipo de Obra')" />
-                        <select name="tipo_obra"
+                        <select name="tipo_obra" id="tipo_obra" required
                         class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600" id="tipo_obra">
                             <option value="">Selecciona el Tipo</option>
@@ -217,7 +217,7 @@
                         <x-input-label for="grado_rezago_social" :value="__('Grado de Rezago Social')" />
                         <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                        name="grado_rezago_social" id="grado_rezago_social">
+                        name="grado_rezago_social" id="grado_rezago_social" required>
                             <option value="">Selecciona el grado</option>
                             <option value="Bajo">Bajo</option>
                             <option value="Medio">Medio</option>
@@ -238,7 +238,7 @@
                         <x-input-label for="tipo_licitacion" :value="__('Tipo de Licitación')" />
                         <select class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm 
                             bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                        name="tipo_licitacion" id="tipo_licitacion">
+                        name="tipo_licitacion" id="tipo_licitacion" required>
                             <option value="">Selecciona el tipo de licitación</option>
                             <option value="Adjudicación Directa ">Adjudicación Directa </option>
                             <option value="Invitación a cuando menos tres personas">Invitación a cuando menos tres personas</option>
@@ -274,7 +274,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="costo_total" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="costo_total" :value="old('costo_total')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="costo_total" :value="old('costo_total')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="fuente_financiamiento" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="fuente_financiamiento" :value="old('fuente_financiamiento')" required step="0.01" min="0" placeholder="0.00"
+                                type="number" name="fuente_financiamiento" :value="old('fuente_financiamiento')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -300,7 +300,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="aportacion_municipal" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="aportacion_municipal" :value="old('aportacion_municipal')" step="0.01" min="0" placeholder="0.00"
+                                type="number" name="aportacion_municipal" :value="old('aportacion_municipal')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -313,7 +313,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="aportacion_beneficiarios" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="aportacion_beneficiarios" :value="old('aportacion_beneficiarios')" step="0.01" min="0" placeholder="0.00"
+                                type="number" name="aportacion_beneficiarios" :value="old('aportacion_beneficiarios')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -326,7 +326,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otras_fuentes_federales" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otras_fuentes_federales" :value="old('otras_fuentes_federales')" step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otras_fuentes_federales" :value="old('otras_fuentes_federales')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -339,7 +339,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otras_fuentes_estatales" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otras_fuentes_estatales" :value="old('otras_fuentes_estatales')" step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otras_fuentes_estatales" :value="old('otras_fuentes_estatales')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>
@@ -352,7 +352,7 @@
                             text-black dark:text-white rounded-l-md">$</span> <!--Simbolo $-->
                             <x-text-input id="otros" 
                                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
-                                type="number" name="otros" :value="old('otros')" step="0.01" min="0" placeholder="0.00"
+                                type="number" name="otros" :value="old('otros')" required step="0.01" min="0" placeholder="0.00" :value=0.00
                             />
                         </div>
                     </div>

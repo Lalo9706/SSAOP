@@ -38,12 +38,10 @@ class ObraController extends Controller
 
     //Almacenar una Obra su Estructura Financiera y Metas
     public function store(Request $request): RedirectResponse{
-        //dd($request->all());
-        DB::beginTransaction();
+        DB::beginTransaction(); //Comenzar transacción
         try{
-            //Registro de Obra
             //Validar campos de Obra
-            $formFields_Obra = $request->validate([
+            $formFields_obra = $request->validate([
                 'pgi_id' => 'required',
                 'localidad_id' => 'required',
                 'programa_id' => 'required',
@@ -60,40 +58,38 @@ class ObraController extends Controller
                 'grado_rezago_social' => 'required',
                 'modalidad_ejecucion' => 'required',
                 'tipo_licitacion' => 'required',
-                'solicitud_obra' => ['file', 'mimes:pdf,doc,docx', 'max:2048'],
-                'estado' => 'required'
+                'solicitud_obra' => ['file', 'mimes:pdf,doc,docx', 'max:2048']
             ]);
 
-            //Asignando valor constante
-            $formFields_Obra['situacion_fisica'] = 'N/D';
+            //Asignando valores constantes a la Obra
+            $formFields_obra['situacion_fisica'] = 'N/D';
+            $formFields_obra['estado'] = true;
 
-            //Almacenando el archivo y asignando el valor de la ruta
+            //Almacenando el archivo de la solicitud de obra y asignando el valor de la ruta
             if ($request->hasFile('solicitud_obra')) {
-                $formFields_Obra['solicitud_obra'] = $request->file('solicitud_obra')->store('solicitudes_obras', 'public');
-            }
-
-            //Almacenando Obra
-            $lastObra = Obra::create($formFields_Obra); //Almacenar la Obra en la base de datos y obtener su registro
-
-            // Registro de Estructura Financiera
+                $formFields_obra['solicitud_obra'] = $request->file('solicitud_obra')->store('solicitudes_obras', 'public');
+            }else{ $formFields_obra['solicitud_obra'] = 'N/D'; }
+            
+            //Almacenando la Obra
+            $lastObra = Obra::create($formFields_obra); //Almacenar la Obra en la base de datos y obtener su registro        
+            
             //Validar campos de Estructura Financiera
             $formFields_EstructuraFinanciera = $request->validate([
                 'costo_total' => 'required',
                 'fuente_financiamiento' => 'required',
-                'aportacion_municipal' => 'nullable',
-                'aportacion_beneficiarios' => 'nullable',
-                'otras_fuentes_federales' => 'nullable',
-                'otras_fuentes_estatales' => 'nullable',
-                'otros' => 'nullable'
+                'aportacion_municipal' => 'required',
+                'aportacion_beneficiarios' => 'required',
+                'otras_fuentes_federales' => 'required',
+                'otras_fuentes_estatales' => 'required',
+                'otros' => 'required'
             ]);
 
-            // Asignando los valores constantes a las variables
+            // Asignando el id de la Obra almacenada y el valor constante
             $formFields_EstructuraFinanciera['obra_id'] = $lastObra->id;
             $formFields_EstructuraFinanciera['tipo_estructura_financiera'] = 'Inversion Aprobada';
 
             EstructuraFinanciera::create($formFields_EstructuraFinanciera); //Almacenar la Estructura Financiera en la base de datos y obtener su registro
 
-            // Lógica para el registro de Metas
             // Validar campos de Meta de proyecto
             $formFields_Meta_Proyecto = $request->validate([
                 'unidad_medida_proyecto' => 'required',
@@ -122,17 +118,15 @@ class ObraController extends Controller
                 'cantidad_aprobada' => $formFields_Meta_Beneficiario['cantidad_aprobada_beneficiarios'],
             ]);
 
-            //DB::commit(); //Enviar transacción
+            DB::commit(); //Enviar transacción
 
-            return redirect('/')->with('message', '¡Se ha registrado la obra!');
-            
+            return redirect('/dashboard')->with('message', '¡Se ha registrado la obra!');
 
         }catch (\Exception $e) {
             // Si ocurre algún error, se revierte la transacción
+            //dd($e);
             DB::rollBack();
-    
-            // Opción para manejar el error
-            return redirect()->back()->withErrors(['error' => 'Ocurrió un error y no se guardó el registro, intente nuevamente']);
+            return redirect()->back()->with('message', 'Ha ocurrido un error: Intentelo nuevamente');
         }
     }
 }

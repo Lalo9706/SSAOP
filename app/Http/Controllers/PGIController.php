@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EntidadFederativa;
 use App\Models\FuenteFinanciamiento;
 use App\Models\Municipio;
 use App\Models\PGI;
@@ -31,6 +30,7 @@ class PGIController extends Controller
 
         $formFields['estado'] = true;
         $lastPGI = PGI::create($formFields);
+        dd($lastPGI);
         return redirect('/')->with('message', '¡PGI registrado con exito!');
     }
 }
