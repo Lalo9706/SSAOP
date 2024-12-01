@@ -6,36 +6,33 @@ Este proyecto es un sistema web diseñado para el Departamento de Obras Pública
 
 ## Funciones Generales del Producto
 
-### 1. Captura de Solicitudes  
-- Recepción de solicitudes de obras (calles, viviendas, electrificaciones, etc.).  
-- Clasificación de solicitudes según las fuentes de financiamiento (FAISMUN, FORTAMUNDF).  
-- Creación de un Programa General de Inversión (PGI) basado en las solicitudes.  
+### 1. Captura de Datos
+- **Programa General de Inversión (PGI)**: Información de los proyectos de inversión y el presupuesto.
+- **Obras**: Datos detallados de cada Obra asociada a un PGI.
+- **Contratos**: Registro de contratos y contratistas para la realización de cada obra.
+- **Documentos de IMSS**: Registro de documentos de registro de seguro social IMSS por obras.
+- **Fianzas**: Registro de documentos de fianzas por contrato.
+- **Prefacturas y Ordenes de Pago**: Generación y registro de documentos de prefacturas para la gestión de Ordenes de Pagos.
 
-### 2. Generación de Reportes Iniciales  
+### 2. Reportes Iniciales  
 - Reportes del Programa General de Inversión (PGI).  
-- Reportes de beneficiarios e integración de comités.  
-- Generación de reportes con datos de solicitudes, beneficiarios y documentos anexos.  
+- Reportes de Comité de Obra.
+- Generación de Reportes de Seguimiento de Documentación.
 
-### 3. Módulos de Captura de Información  
-- **Beneficiarios**: Información de solicitantes, documentos de solicitud y credenciales.  
-- **Contratos**: Datos del contrato (fecha, contratista, etc.).  
-- **Fianzas**: Información sobre fianzas (anticipo, cumplimiento, vicios ocultos) y validación de su autenticidad.  
-- **Altas y Bajas en el IMSS**: Documentos relacionados con trabajadores.  
+### 3. Reportes Avanzados  
+- Reportes de avances físico y financieros.  
+- Reportes mensuales, trimestrales y de cierre de ejercicio.  
+- Reportes concentrados en formato Excel.  
 
-### 4. Reportes Avanzados  
-- Reportes de avance físico semanales con descripción y fotografías.  
-- Reportes trimestrales y de cierre de ejercicio.  
-- Reportes concentrados en formato Excel para revisiones y presentaciones a autoridades.  
-
-### 5. Facturación y Prefacturas  
+### 4. Facturación y Prefacturas  
 - Generación de prefacturas con desglose de pagos.  
 - Integración de facturas recibidas y generación de órdenes de pago.  
 
-### 6. Interfaz de Usuario  
-- Interfaz amigable y fácil de usar.  
+### 5. Interfaz de Usuario  
+- Interfaz sencilla y fácil de usar con carácteristicas para modo claro y oscuro.
 - Creación de usuarios con roles específicos, como contratistas con permisos limitados.  
 
-### 7. Seguridad  
+### 6. Seguridad  
 - Protección de datos sensibles con medidas avanzadas de seguridad.  
 - Prevención del acceso no autorizado y protección de la integridad de la información.  
 
