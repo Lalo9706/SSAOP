@@ -8,6 +8,7 @@
     <!-- Contenedor de Botones-->
     <div class="py-12">
         <body class="bg-gray-100">
+        <livewire:toasts />
         <div class="container mx-auto p-8"> 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8 py-3 px-5 mt-0">
                 <a href="{{ route('pgis.create') }}" class="py-3 px-5 mt-0 bg-white dark:bg-gray-800 shadow sm:rounded-lg text-black dark:text-white">

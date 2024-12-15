@@ -107,4 +107,10 @@ class Obra extends Model
         return $this->hasMany(RolPersonaObra::class, 'obra_id'); 
     }
 
+    //-------------- ACCESO A DATOS RELACIONADOS -------------------- //
+    public function estructuraFinancieraAprobada()
+    {
+        return $this->hasMany(EstructuraFinanciera::class)->where('tipo_estructura_financiera', 'Inversion Aprobada');
+    }
+
 }

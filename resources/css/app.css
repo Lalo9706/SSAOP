@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Estilo específico para los botones de pestañas en el formulario de Obras */
+
+/* Estilo para el botón activo */
+.tab-active {
+    @apply bg-gray-800 text-white dark:bg-gray-100 dark:text-black font-bold;
+}
+
+/* Estilo para el botón inactivo */
+.tab-inactive {
+    @apply bg-gray-100 text-black dark:bg-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700;
+}
+
+

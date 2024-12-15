@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'SSAOP') }}</title>
 
         <!-- Fuentes / Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        <script src="//unpkg.com/alpinejs" defer></script>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.4/dist/cdn.min.js"></script>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+
+        <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen"> <!-- Se ha colocado flex y flex-col para que el contenido ocupe todo el espacio disponible en la pantalla y así el pie de página se vaya al fondo.-->
@@ -31,7 +31,9 @@
 
             <!-- Contenido de la Página / Page Content-->
             <main class="flex-grow">
-                {{ $slot }}
+                <body>
+                    {{ $slot }}
+                </body>
             </main>     
             
             <footer class="bg-white dark:bg-gray-800 shadow mt-4">
@@ -39,7 +41,7 @@
                     &copy {{ date('Y') }} {{ config('app.name', 'SSAOP') }} {{ __('Todos los derechos reservados.') }}
                 </div>
             </footer>
-            <x-flash-message /> <!--Componente de mensajes invocado desde el layout-->
+            <x-flash-message />
         </div>
     </body>
 </html>

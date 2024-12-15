@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('fuente_financiamiento_id')->constrained('fuentes_financiamiento');
             $table->foreignId('municipio_id')->constrained();
             $table->string('ejercicio_fiscal');
-            $table->decimal('monto_aprobado', 10, 2)->nullable()->default(0);
+            $table->decimal('monto_aprobado', 11, 2)->nullable()->default(0);
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

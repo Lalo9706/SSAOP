@@ -25,12 +25,20 @@ class PGIController extends Controller
             'fuente_financiamiento_id' => 'required',
             'municipio_id' => 'required',
             'ejercicio_fiscal' => 'required', 
-            'monto_aprobado' => 'required'
+            'monto_aprobado' => [
+            'required',
+            'numeric',
+            'regex:/^\d{1,8}(\.\d{1,2})?$/', // Hasta 8 dígitos enteros y 2 decimales
+            ],[
+                'monto_aprobado.required' => 'Por favor, ingresa un monto aprobado.',
+                'monto_aprobado.numeric' => 'El monto debe ser un número.',
+                'monto_aprobado.max' => 'El monto no puede ser mayor a 99,999,999.99.',
+                'monto_aprobado.regex' => 'El monto aprobado debe tener como máximo 8 dígitos enteros y 2 decimales.',
+            ]
         ]);
 
         $formFields['estado'] = true;
-        $lastPGI = PGI::create($formFields);
-        dd($lastPGI);
+        PGI::create($formFields);
         return redirect('/')->with('message', '¡PGI registrado con exito!');
     }
 }
