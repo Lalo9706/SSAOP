@@ -16,11 +16,15 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
+            <div class="flex">
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <x-application-logo class="block h-20 w-30 fill-current text-gray-800 dark:text-gray-200" />
                 </a>
+                <img class="w-20 h-30 p-1" src="/images/escudo.png">
+                <img class="w-30 h-20 p-1" src="/images/logo.png">
+                <img class="w-30 h-20 p-1" src="/images/sonrisas.png">
             </div>
+            <h2 class="font-bold text-gray-800 dark:text-gray-200">Sistema de Seguimiento Administrativo de Obras Públicas</h2>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}

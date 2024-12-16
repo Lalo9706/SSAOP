@@ -8,6 +8,9 @@
                     <a href="/">
                         <x-application-logo class="block h-11 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
+                    <img class="w-10 p-1" src="/images/escudo.png">
+                    <img class="w-20 p-1" src="/images/logo.png">
+                    <img class="w-20 p-1" src="/images/sonrisas.png">
                 </div>
 
                 <!-- Pestañas de Navegación del Usuario Autenticado-->
