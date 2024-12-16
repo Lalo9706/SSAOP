@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('localidad_id')->constrained('localidades');
             $table->string('tipo_obra'); //Obra - Acción - Servicio
             $table->string('numero_obra');
-            $table->decimal('latitud', 9, 6)->nullable();
-            $table->decimal('longitud', 9, 6)->nullable();
+            $table->decimal('latitud', 9, 6)->nullable(); //Acepta 9 digitos en total y 6 de ellos deben ser decimales
+            $table->decimal('longitud', 9, 6)->nullable(); //Acepta 9 digitos en total y 6 de ellos deben ser decimales
             $table->string('zona_alta_prioridad');
             $table->string('agebs')->nullable()->default('N/A');
             $table->string('grado_rezago_social');

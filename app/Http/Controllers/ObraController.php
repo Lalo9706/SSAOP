@@ -36,7 +36,7 @@ class ObraController extends Controller
         return view('obras.create', compact('pgis', 'programas',));
     }
 
-    //Almacenar una Obra su Estructura Financiera y Metas
+    //Almacenar una Obra su Estructura Financiera y Metas en la base de datos
     public function store(Request $request): RedirectResponse{
         DB::beginTransaction(); //Comenzar transacción
         try{
@@ -51,8 +51,8 @@ class ObraController extends Controller
                 'numero_obra' => 'required',
                 'nombre_obra' => 'required',
                 'descripcion_obra' => 'required',
-                'latitud' => 'required',
-                'longitud' => 'required',
+                'latitud' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
+                'longitud' => 'required|regex:/^-?\d{1,3}\.\d{6,}$/',
                 'zona_alta_prioridad' => 'required',
                 'agebs' => 'required',
                 'grado_rezago_social' => 'required',
@@ -119,12 +119,11 @@ class ObraController extends Controller
             ]);
 
             DB::commit(); //Enviar transacción
-
             return redirect('/dashboard')->with('message', '¡Se ha registrado la obra!');
 
         }catch (\Exception $e) {
             // Si ocurre algún error, se revierte la transacción
-            //dd($e);
+            //dd($e); <!--Visualizar la excepción en el navegador -->
             DB::rollBack();
             return redirect()->back()->with('message', 'Ha ocurrido un error: Intentelo nuevamente');
         }
