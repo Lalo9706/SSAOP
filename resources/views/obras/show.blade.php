@@ -4,13 +4,14 @@
             {{ __('Información de la Obra') }}
         </h2>
     </x-slot>
-    <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4 py-6">
+    <div class="gap-4 space-y-4 md:space-y-0 mx-4 py-6">
         @props(['obra'])
         <x-card>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="py-3 px-5 mt-0 bg-white dark:bg-gray-800 shadow sm:rounded-lg" >
                     <!--El nombre de la obra es un enlace para mostrar la información completa de la obra-->
-                    <h3 class="text-base font-bold"> 
+                    <h3> 
+                        <label class="text-black dark:text-white font-bold">Nombre de la Obra: </label>
                         <label class="text-black dark:text-white">
                             {{$obra->nombre_obra}}
                         </label>
